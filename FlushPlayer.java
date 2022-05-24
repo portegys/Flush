@@ -23,6 +23,7 @@ import java.awt.image.*;
 import java.net.*;
 import java.io.*;
 import java.util.*;
+import javax.swing.*;
 
 // Main applet.
 public class FlushPlayer extends Applet
@@ -35,12 +36,14 @@ public class FlushPlayer extends Applet
 
 
    // Globals.
-   AppletContext         context;
-   private FlushViewer   viewer;
-   private FlushLoader   loader;
-   private FlushControls controls;
-   private FlushCassette cassette;
-   private Panel         masterPanel;
+   AppletContext             context;
+   private FlushViewer       viewer;
+   private FlushLoader       loader;
+   private FlushControls     controls;
+   private FlushCassette     cassette;
+   private Panel             masterPanel;
+   private String            loadFilename;
+   private ArrayList<String> choiceList;
 
    // Initialize.
    public void init()
@@ -48,7 +51,14 @@ public class FlushPlayer extends Applet
       Dimension d;
 
       // Get environment.
-      context = getAppletContext();
+      try
+      {
+         context = getAppletContext();
+      }
+      catch (Exception e)
+      {
+         context = null;
+      }
 
       // Load blank cassette.
       cassette = new FlushCassette();
@@ -290,15 +300,39 @@ public class FlushPlayer extends Applet
          choice    = new Choice();
          choice.addItemListener(new choiceItemListener());
          choice.add("Load:");
-         for (i = 0; ; i++)
+         if (choiceList == null)
          {
-            if ((s = getParameter("choice" + i)) == null) { break; }
-            choice.add(s);
+            try
+            {
+               for (i = 0; ; i++)
+               {
+                  if ((s = getParameter("choice" + i)) == null) { break; }
+                  choice.add(s);
+               }
+            }
+            catch (Exception e) {}
+         }
+         else
+         {
+            for (String c : choiceList)
+            {
+               choice.add(c);
+            }
          }
          panels[0].add(choice);
          panels[1] = new Panel();
-         s         = getParameter("load");
-         text      = new TextField(s, 20);
+         if (loadFilename == null)
+         {
+            try
+            {
+               loadFilename = getParameter("load");
+            }
+            catch (Exception e)
+            {
+               loadFilename = null;
+            }
+         }
+         text = new TextField(loadFilename, 20);
          text.addActionListener(new textActionListener());
          panels[1].add(text);
          panels[2] = new Panel();
@@ -308,7 +342,7 @@ public class FlushPlayer extends Applet
          for (i = 0; i < 3; i++) { masterPanel.add(panels[i]); }
 
          // Load initial cassette.
-         loader.start(s);
+         loader.start(loadFilename);
       }
 
 
@@ -349,5 +383,77 @@ public class FlushPlayer extends Applet
             viewer.flush();
          }
       }
+   }
+
+   // Usage.
+   public static final String Usage =
+      "Usage:\n" +
+      "    java graffitv.FlushPlayer\n" +
+      "        [-loadCassette <file name> (cassette to load)]\n" +
+      "        [-cassetteChoices <comma-separated list of cassette names>]";
+
+   // Main.
+   @SuppressWarnings("deprecation")
+   public static void main(String[] args)
+   {
+      // Create player.
+      FlushPlayer player = new FlushPlayer();
+
+      // Get options.
+      for (int i = 0; i < args.length; i++)
+      {
+         if (args[i].equals("-loadCassette"))
+         {
+            i++;
+            if (i >= args.length)
+            {
+               System.err.println("Invalid loadCassette option");
+               System.err.println(Usage);
+               System.exit(1);
+            }
+            player.loadFilename = args[i];
+            continue;
+         }
+         if (args[i].equals("-cassetteChoices"))
+         {
+            i++;
+            if (i >= args.length)
+            {
+               System.err.println("Invalid cassetteChoices option");
+               System.err.println(Usage);
+               System.exit(1);
+            }
+            player.choiceList = new ArrayList<String>();
+            String[] choices  = args[i].split(",");
+            for (int j = 0; j < choices.length; j++)
+            {
+               player.choiceList.add(choices[j]);
+            }
+            continue;
+         }
+         if (args[i].equals("-help"))
+         {
+            System.out.println(Usage);
+            System.exit(0);
+         }
+         System.err.println("Invalid option: " + args[i]);
+         System.err.println(Usage);
+         System.exit(1);
+      }
+
+      // Create frame.
+      JFrame frame = new JFrame();
+
+      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      frame.setTitle("Flush it!");
+      frame.setBounds(0, 0, 300, 499);
+      frame.setLayout(new GridLayout(1, 1));
+      frame.add(player);
+      frame.setVisible(true);
+
+      // Run applet.
+      player.init();
+      player.start();
+      frame.resize(new Dimension(300, 500));
    }
 }

@@ -15,7 +15,6 @@ import java.util.*;
 import java.util.zip.*;
 import java.net.*;
 import java.io.*;
-import sun.audio.*;
 
 public class FlushCassette extends Applet
 {
@@ -48,12 +47,15 @@ public class FlushCassette extends Applet
    private int mode;
 
    // Play mode.
-   private Vector      animation;       // Frame sequence.
-   private int         cursor;          // Sequence cursor.
-   private AudioStream sound;           // Sound effect.
+   private Vector    animation;       // Frame sequence.
+   private int       cursor;          // Sequence cursor.
+   private AudioClip sound;           // Sound effect.
 
    // Record mode.
    private ObjectOutputStream out;      // Output stream.
+
+   // Applet context.
+   private AppletContext context;
 
    // Record mode constructor.
    public FlushCassette(String cassetteFile, String cassetteTitle,
@@ -101,14 +103,17 @@ public class FlushCassette extends Applet
 
       mode = PLAY;
       this.cassetteFile = cassetteFile;
+      this.context      = context;
       animation         = new Vector();
       cursor            = 0;
 
       // Read "header".
-      context.showStatus("Loading cassette " + cassetteFile + "...");
+      status("Loading cassette " + cassetteFile + "...");
       try
       {
-         in            = new ObjectInputStream(new GZIPInputStream(getClass().getResourceAsStream(cassetteFile)));
+         InputStream     stream  = getClass().getResourceAsStream(cassetteFile);
+         GZIPInputStream gstream = new GZIPInputStream(stream);
+         in            = new ObjectInputStream(gstream);
          cassetteTitle = (String)in.readObject();
          soundFile     = (String)in.readObject();
          size          = in.readInt();
@@ -118,7 +123,7 @@ public class FlushCassette extends Applet
       }
 
       // Read frames.
-      context.showStatus("Loading frames...");
+      status("Loading frames...");
       tracker = new MediaTracker(this);
       j       = 0;
       while (true)
@@ -132,7 +137,7 @@ public class FlushCassette extends Applet
             image  = createImage(memory);
             tracker.addImage(image, 0);
             animation.addElement(new Frame(image, new Dimension(size, size), in.readInt()));
-            context.showStatus("Frame " + j + " loaded");
+            status("Frame " + j + " loaded");
             j++;
          }
          catch (EOFException e) {
@@ -155,18 +160,48 @@ public class FlushCassette extends Applet
       // Load sound.
       if (soundFile != null)
       {
-         context.showStatus("Loading sound...");
+         status("Loading sound...");
          try
          {
-            sound = new AudioStream(getClass().getResourceAsStream(soundFile));
+            sound = loadSound(soundFile);
          }
          catch (Exception e) {
             throw new IOException(e.getMessage());
          }
-         AudioPlayer.player.start(sound);                       // Force load.
-         AudioPlayer.player.stop(sound);
       }
-      context.showStatus("Cassette " + cassetteFile + " loaded");
+      status("Cassette " + cassetteFile + " loaded");
+   }
+
+
+   // Load sound clip by playing and immediately stopping it.
+   public AudioClip loadSound(String soundFile)
+   {
+      AudioClip audioClip = null;
+
+      try
+      {
+         URL url = FlushCassette.class .getResource(soundFile);
+
+         if (url != null)
+         {
+            audioClip = Applet.newAudioClip(url);
+         }
+
+         if (audioClip == null)
+         {
+            showStatus("Cannot load sound file " + soundFile);
+         }
+         else
+         {
+            audioClip.play();
+            audioClip.stop();
+         }
+      }
+      catch (Exception e) {
+         showStatus("Cannot load sound file " + soundFile + ": " + e.toString());
+      }
+
+      return(audioClip);
    }
 
 
@@ -264,7 +299,7 @@ public class FlushCassette extends Applet
    public void play()
    {
       if (mode == RECORD) { return; }
-      if (sound != null) { AudioPlayer.player.start(sound); }
+      if (sound != null) { sound.play(); }
    }
 
 
@@ -272,15 +307,20 @@ public class FlushCassette extends Applet
    public void stop()
    {
       if (mode == RECORD) { return; }
-      if (sound != null)
+      if (sound != null) { sound.stop(); }
+   }
+
+
+   // Status message.
+   void status(String message)
+   {
+      try
       {
-         AudioPlayer.player.stop(sound);
-         try
-         {
-            sound = new AudioStream(getClass().getResourceAsStream(soundFile));
-         }
-         catch (Exception e) {
-         }
+         context.showStatus(message);
+      }
+      catch (Exception e)
+      {
+         System.out.println(message);
       }
    }
 }
