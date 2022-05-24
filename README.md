@@ -1,7 +1,10 @@
 # Flush
 Flush images away. Prototype demo for the GraffiTV project (see GraffiTV.pdf).
 <p>
-Build: build.sh/build.bat
+Build:<br>
+<pre>
+build.sh/build.bat
+</pre>
 <p>
 Run flush as app:<br>
 <pre>
@@ -9,13 +12,15 @@ Run flush as app:<br>
         [-loadCassette <file name> (cassette to load)]
         [-cassetteChoices <comma-separated list of cassette names>]
 </pre><br>
-Run as applet: 
+Run flush as applet:
 <pre>
 appletviewer flush.html # applet parameters: "load" and "choice"
 </pre>
 <p>
 Record flush cassette:<br>
-mkcassette.sh<br>
+<pre>
+mkcassette.sh
+</pre><br>
 or<br>
 <pre>
     java -jar FlushRecorder.jar
