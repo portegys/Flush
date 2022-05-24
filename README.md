@@ -10,7 +10,10 @@ Flush images away.
 <br>        [-cassetteChoices <comma-separated list of cassette names>]
 <br>Run as applet: appletviewer flush.html (applet parameters: "load" and "choice"
 <p>
-<br>Run cassette recorder: java -jar FlushRecorder.jar
+<br>Run cassette recorder:
+<br>mkcassette.sh
+<br>or 
+<br>java -jar FlushRecorder.jar
 <br>Usage:
 <br>    java graffitv.FlushPlayer
 <br>        -image <image file|URL>
