@@ -20,7 +20,7 @@ appletviewer flush.html # applet parameters: "load" and "choice"
 Record flush cassette:<br>
 <pre>
 mkcassette.sh
-</pre><br>
+</pre>
 or<br>
 <pre>
     java -jar FlushRecorder.jar
