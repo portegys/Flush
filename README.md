@@ -3,10 +3,9 @@ Flush images away. Prototype demo for the GraffiTV project (see GraffiTV.pdf).
 <p>
 Build: build.sh/build.bat
 <p>
-Run player as app: java -jar FlushPlayer.jar<br>
-Usage:<br>
+Run player as app:<br>
 <pre>
-    java graffitv.FlushPlayer
+    java -jar FlushPlayer.jar
         [-loadCassette <file name> (cassette to load)]
         [-cassetteChoices <comma-separated list of cassette names>]
 </pre><br>
@@ -15,10 +14,8 @@ Run as applet: appletviewer flush.html (applet parameters: "load" and "choice"
 Run cassette recorder:<br>
 mkcassette.sh<br>
 or<br>
-java -jar FlushRecorder.jar<br>
-Usage:<br>
 <pre>
-    java graffitv.FlushPlayer
+    java -jar FlushRecorder.jar
         -image <image file|URL>
         [-file <cassette file> (else cassette written to stdout)]
         [-title <cassette title>]
