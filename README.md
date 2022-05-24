@@ -5,11 +5,11 @@ Build: build.sh/build.bat
 <p>
 Run player as app: java -jar FlushPlayer.jar<br>
 Usage:<br>
-<code>
+<pre>
     java graffitv.FlushPlayer
         [-loadCassette <file name> (cassette to load)]
         [-cassetteChoices <comma-separated list of cassette names>]
-</code><br>
+</pre><br>
 Run as applet: appletviewer flush.html (applet parameters: "load" and "choice"
 <p>
 Run cassette recorder:<br>
@@ -17,7 +17,7 @@ mkcassette.sh<br>
 or<br>
 java -jar FlushRecorder.jar<br>
 Usage:<br>
-<code>
+<pre>
     java graffitv.FlushPlayer
         -image <image file|URL>
         [-file <cassette file> (else cassette written to stdout)]
@@ -36,5 +36,5 @@ Usage:<br>
         [-spiral_converge <rate at which fragments converge on spirals (0.0:1.0)>]
         [-random_seed <random number seed>]
         [-display (animation)]
-</code><br>
+</pre><br>
 Note: re-build after recording a cassette.<br>
