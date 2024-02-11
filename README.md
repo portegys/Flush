@@ -44,4 +44,5 @@ mkcassette.sh
         [-display (animation)]
 </pre>
 <br>
-Note: re-build after recording a cassette.&lt;br&gt;
+Note: re-build after recording a cassette.
+<br>
