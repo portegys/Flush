@@ -6,40 +6,42 @@ Build:<br>
 build.sh/build.bat
 </pre>
 <p>
-Run flush as app:<br>
+Run flush as app:&lt;br&gt;
 <pre>
     java -jar FlushPlayer.jar
-        [-loadCassette <file name> (cassette to load)]
-        [-cassetteChoices <comma-separated list of cassette names>]
-</pre><br>
+        [-loadCassette &lt;file name&gt; (cassette to load)]
+        [-cassetteChoices &lt;comma-separated list of cassette names&gt;]
+</pre>
+<br>
 Run flush as applet:
 <pre>
 appletviewer flush.html # applet parameters: "load" and "choice"
 </pre>
 <p>
-Record flush cassette:<br>
+Record flush cassette:&lt;br&gt;
 <pre>
 mkcassette.sh
 </pre>
-or<br>
+<br>
 <pre>
     java -jar FlushRecorder.jar
-        -image <image file|URL>
-        [-file <cassette file> (else cassette written to stdout)]
-        [-title <cassette title>]
-        [-sound <sound file|URL>]
+        -image &lt;image file|URL&gt;
+        [-file &lt;cassette file&gt; (else cassette written to stdout)]
+        [-title &lt;cassette title&gt;]
+        [-sound &lt;sound file|URL&gt;]
         [-scale_image (scale to cassette size)]
-        [-size <cassette ("toilet") size (pixels)>]
-        [-hole_size <"toilet hole" size (pixels)>]
-        [-fragment_size <image fragment size (pixels)>]
-        [-rotation_increment <rotation increment (degrees)>]
-        [-flush_delay <image sequence delay while flushing (ms)>]
-        [-recharge_delay <image sequence delay while recharging (ms)>]
-        [-num_spiral <number of spiraling "swirls">]
-        [-min_spiral_scale <minimum spiral scale (0.00:1.00, .01 increments)>]
-        [-max_spiral_scale <maximum spiral scale (0.00:1.00, .01 increments)>]
-        [-spiral_converge <rate at which fragments converge on spirals (0.0:1.0)>]
-        [-random_seed <random number seed>]
+        [-size &lt;cassette ("toilet") size (pixels)&gt;]
+        [-hole_size &lt;"toilet hole" size (pixels)&gt;]
+        [-fragment_size &lt;image fragment size (pixels)&gt;]
+        [-rotation_increment &lt;rotation increment (degrees)&gt;]
+        [-flush_delay &lt;image sequence delay while flushing (ms)&gt;]
+        [-recharge_delay &lt;image sequence delay while recharging (ms)&gt;]
+        [-num_spiral &lt;number of spiraling "swirls"&gt;]
+        [-min_spiral_scale &lt;minimum spiral scale (0.00:1.00, .01 increments)&gt;]
+        [-max_spiral_scale &lt;maximum spiral scale (0.00:1.00, .01 increments)&gt;]
+        [-spiral_converge &lt;rate at which fragments converge on spirals (0.0:1.0)&gt;]
+        [-random_seed &lt;random number seed&gt;]
         [-display (animation)]
-</pre><br>
-Note: re-build after recording a cassette.<br>
+</pre>
+<br>
+Note: re-build after recording a cassette.&lt;br&gt;
