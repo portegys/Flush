@@ -1,28 +1,28 @@
 # Flush
 Flush images away. Prototype demo for the GraffiTV project (see GraffiTV.pdf).
-<p>
+
 Build:<br>
 ```
 build.sh/build.bat
 ```
-<p>
+
 Run flush as app:<br>
 ```
     java -jar FlushPlayer.jar
         [-loadCassette <file name> (cassette to load)]
         [-cassetteChoices <comma-separated list of cassette names>]
 ```
-<br>
+
 Run flush as applet:
 ```
 appletviewer flush.html # applet parameters: "load" and "choice"
 ```
-<p>
+
 Record flush cassette:<br>
 ```
 mkcassette.sh
 ```
-<br>
+
 ```
     java -jar FlushRecorder.jar
         -image <image file|URL>
@@ -43,6 +43,5 @@ mkcassette.sh
         [-random_seed <random number seed>]
         [-display (animation)]
 ```
-<br>
+
 Note: re-build after recording a cassette.
-<br>
